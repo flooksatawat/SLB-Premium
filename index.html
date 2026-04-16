@@ -343,18 +343,18 @@
             } 
         }
 
-        // ส่วนที่ 2: เพิ่มฟังก์ชันนี้กลับเข้าไปใต้ adjustInputFontSize เพื่อแก้ Error getCommissionRate
-        function getCommissionRate(plan, age) {
-            if (plan === '5SLB') { // 5SLB
-                if (age <= 50) return 0.25;
-                if (age <= 60) return 0.20;
-                return 0.15;
-            } else if (plan === '10SLB') { // 10SLB
-                if (age <= 50) return 0.40;
-                if (age <= 60) return 0.30;
-                return 0.20;
+        // 1. เพิ่มฟังก์ชันดึงเรทคอมมิชชันแบบหลายปี (Array) ตามช่วงอายุในภาพ
+        function getCommissionRateArray(plan, age) {
+            if (plan === '5SLB') {
+                if (age <= 25) return [0.15, 0.06, 0.0375, 0.01, 0.01];
+                if (age <= 60) return [0.10, 0.04, 0.025];
+                return [0.05, 0.02, 0.0125];
+            } else if (plan === '10SLB') {
+                if (age <= 40) return [0.30, 0.12, 0.08, 0.025, 0.025, 0.025];
+                if (age <= 60) return [0.25, 0.10, 0.07, 0.01, 0.01, 0.01];
+                return [0.10, 0.04, 0.025, 0.01, 0.01, 0.01];
             }
-            return 0;
+            return [0];
         }
 
         function toggleSettings() { const el = document.getElementById('manualInputs'); if (el) el.classList.toggle('hidden'); }
@@ -400,7 +400,10 @@
         function refreshAllDisplays() { 
             if (!lastCalculationData) return; const p = lastCalculationData.premium; 
             const age = lastCalculationData.age;
-            const planRate = getCommissionRate(currentPlan, age);
+            
+            // ดึงค่าเรทคอมมิชชันมาประมวลผล
+            const ratesArray = getCommissionRateArray(currentPlan, age);
+            const planRate = ratesArray[0];
             const fyc = Math.round(p * planRate);
             
             setText('mainPremiumResult', Math.round(p).toLocaleString()); 
@@ -409,6 +412,30 @@
             setText('sumMonthly', Math.round(p * 0.09).toLocaleString()); 
             setText('sum3Month', Math.round(p * 0.27).toLocaleString()); 
             setText('sum6Month', Math.round(p * 0.52).toLocaleString()); 
+            setText('commRateLabel', parseFloat((planRate * 100).toFixed(2)));
+
+            // 2. เพิ่มโค้ดสร้างรายการแสดงผลในหน้าต่าง "รายได้ที่ได้รับ"
+            const comListEl = document.getElementById('comList');
+            if (comListEl) {
+                let comHtml = '';
+                let totalCom = 0;
+                ratesArray.forEach((rate, index) => {
+                    if(rate > 0) {
+                        const amt = Math.round(p * rate);
+                        totalCom += amt;
+                        comHtml += `<div class="com-item-row">
+                                        <div class="com-year-pill">ปีที่ ${index + 1}</div>
+                                        <div class="com-percent-label">${parseFloat((rate * 100).toFixed(2))}%</div>
+                                        <div class="com-amount-value">${amt.toLocaleString()} ฿</div>
+                                    </div>`;
+                    }
+                });
+                comHtml += `<div class="com-item-row" style="border-top: 1px dashed #fbbf24; margin-top: 5px; padding-top: 10px;">
+                                <div class="com-percent-label" style="text-align: left; margin-left: 0;">รวมตลอดสัญญา</div>
+                                <div class="com-amount-value" style="color: #d97706; font-size: 1.1rem;">${totalCom.toLocaleString()} ฿</div>
+                            </div>`;
+                comListEl.innerHTML = comHtml;
+            }
         }
 
         function updateAIAdvisorContent() {
