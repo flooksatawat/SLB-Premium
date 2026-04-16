@@ -57,7 +57,7 @@
         .ai-content-box { background: white; padding: 15px; border-radius: 15px; border: 1px solid #f0f4ff; margin-bottom: 12px; font-size: 14px; color: #475569; line-height: 1.6; position: relative; } 
         .ai-refresh-btn { position: absolute; top: 12px; right: 12px; font-size: 16px; color: #6366f1; cursor: pointer; padding: 5px; transition: transform 0.3s; }
         .ai-refresh-btn:active { transform: rotate(180deg); }
-        .closing-box { background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; margin-top: 12px; border-radius: 12px; color: #1e40af; font-weight: 600; font-size: 13px; }
+        .closing-box { border-left: 4px solid #3b82f6; background-color: #eff6ff; padding: 12px; margin-top: 12px; border-radius: 0 12px 12px 0; color: #1e40af; font-weight: 600; font-size: 13px; }
         .advice-box { background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 18px; padding: 12px 15px; margin-top: 12px; font-size: 13px; color: #92400e; display: flex; align-items: center; gap: 10px; line-height: 1.5; }
         .advice-box.success { background: #ecfdf5; border-color: #6ee7b7; color: #065f46; }
     </style>
@@ -76,7 +76,7 @@
                 </h2>
                 <div id="insuranceConditions" class="hidden mt-3 grid grid-cols-1 gap-1 text-[11px] text-blue-800/80 font-medium border-t border-blue-100 pt-2 px-6 text-left space-y-1 pb-1">
                     <p>• อายุที่รับประกัน: 0 - 70 ปี</p>
-                    <p>• ทุนประกันขั้นต่ำ: 10,000,000 บาท</p>
+                    <p>• ทุนประกันขั้นต่ำ: 5,000,000 บาท</p>
                     <p>• สิทธิประโยชน์มะเร็ง 5 อวัยวะหลัก (30% Advance + 100% Extra)</p>
                 </div>
             </div>
@@ -124,11 +124,11 @@
                     <div>
                         <p class="text-slate-500 text-[10px] font-bold uppercase mb-1.5 text-center tracking-wide">ทุนประกัน (บาท)</p>
                         <div class="grid grid-cols-5 gap-1.5 mb-2">
+                            <button onclick="setQuickSum(5000000)" class="quick-sum-btn">5 ล้าน</button>
                             <button onclick="setQuickSum(10000000)" class="quick-sum-btn">10 ล้าน</button>
                             <button onclick="setQuickSum(20000000)" class="quick-sum-btn">20 ล้าน</button>
                             <button onclick="setQuickSum(50000000)" class="quick-sum-btn">50 ล้าน</button>
                             <button onclick="setQuickSum(100000000)" class="quick-sum-btn">100 ล้าน</button>
-                            <button onclick="setQuickSum(500000000)" class="quick-sum-btn">500 ล้าน</button>
                         </div>
                         <input type="text" id="sumInsuredInput" value="10,000,000" class="input-box" oninput="handleSumInput(this)" onblur="checkMinLimit()">
                     </div>
@@ -212,7 +212,7 @@
                     </div>
                 </div>
 
-                <!-- CASH Summary -->
+                <!-- CASH Menu -->
                 <button onclick="toggleCashMenu()" class="menu-btn cash-main-btn shadow-md h-[90px] mt-4">
                     <div class="flex items-center justify-center gap-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="6" rx="1" fill="#94a3b8" /><rect x="10" y="10" width="4" height="10" rx="1" fill="#64748b" /><rect x="17" y="6" width="4" height="14" rx="1" fill="#1e3a8a" /></svg>
@@ -303,10 +303,10 @@
                 </div>
                 <div class="space-y-4">
                     <div class="flex justify-between items-center p-5 bg-blue-50 rounded-2xl border border-blue-100"><span class="text-xs text-blue-700 font-bold uppercase tracking-wider">เบี้ยประกันภัย</span><span id="modalPremium" class="text-base font-bold text-blue-900">0 บาท</span></div>
-                    <div class="flex justify-between items-center p-5 bg-emerald-50 rounded-2xl border border-emerald-100"><span class="text-xs text-emerald-700 font-bold uppercase tracking-wider">ทุนประกัน</span><span id="modalSum" class="text-base font-bold text-emerald-700">0.00 บาท</span></div>
+                    <div class="flex justify-between items-center p-5 bg-emerald-50 rounded-2xl border border-emerald-100"><span class="text-xs text-emerald-700 font-bold uppercase tracking-wider">ทุนประกัน</span><span id="modalSum" class="text-base font-bold text-emerald-700">0 บาท</span></div>
                     <div class="flex flex-col p-5 bg-indigo-50 rounded-2xl border border-indigo-100">
                         <span class="text-xs text-indigo-700 font-bold uppercase tracking-wider leading-tight">ความคุ้มครองชีวิต (จากไปหรือครบสัญญา)</span>
-                        <div class="flex justify-between items-end mt-1"><span class="text-xs text-indigo-700 font-bold">จ่าย</span><span id="modalMaturity" class="text-base font-bold text-indigo-900">0.00 บาท</span></div>
+                        <div class="flex justify-between items-end mt-1"><span class="text-xs text-indigo-700 font-bold">จ่าย</span><span id="modalMaturity" class="text-base font-bold text-indigo-900">0 บาท</span></div>
                     </div>
                 </div>
                 <button onclick="handleCopyAndClose()" class="w-full bg-blue-900 text-white py-5 rounded-2xl font-bold mt-8 shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all text-sm uppercase tracking-wider"><i class="fas fa-copy"></i> คัดลอก & ปิด</button>
@@ -315,21 +315,11 @@
     </div>
 
     <script>
-        // --- 1. Global State & Helper Functions ---
+        // --- 1. Global State & Constants ---
         let currentPlan = '10SLB';
         let currentGender = 'male';
         let lastCalculationData = null;
         let currentMode = 'sum';
-
-        function setText(id, text) { 
-            const el = document.getElementById(id); 
-            if (el) el.innerText = text; 
-        }
-
-        function formatNum(num) { 
-            const rounded = Math.round(num * 100) / 100; 
-            return Number.isInteger(rounded) ? rounded.toLocaleString() : rounded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
-        }
 
         const LIFE_RATES = { 
             "5SLB": { 
@@ -363,171 +353,99 @@
                 ]
             },
             STATE: { currentMB: 0, currentMYB: 0, currentNAB: 0, lastMaxMB: 0, lastMaxMYB: 0 },
-            
             refreshFromUI: function() {
                 if(!lastCalculationData) return;
-                const p = lastCalculationData.premium;
-                const age = lastCalculationData.age;
-                const rates = getCommissionRateArray(currentPlan, age);
-                this.refresh(p, rates[0], rates);
+                const rates = getCommissionRateArray(currentPlan, lastCalculationData.age);
+                this.refresh(lastCalculationData.premium, rates[0], rates);
             },
-
-            refresh: function(premium, firstYearCommRate, allYearRates) {
-                const fycFromCase = Math.round(premium * firstYearCommRate);
-                this.updateCommissionListUI(premium, allYearRates);
-                this.updateMB(fycFromCase);
-                this.updateMYB(fycFromCase);
-                this.updateNAB(fycFromCase);
-                
-                const totalIncome = fycFromCase + this.STATE.currentMB + this.STATE.currentMYB + this.STATE.currentNAB;
-                setText('caseIncomeComm', fycFromCase.toLocaleString() + " บาท");
+            refresh: function(premium, firstYearRate, allRates) {
+                const fyc = Math.round(premium * firstYearRate);
+                this.updateMB(fyc); this.updateMYB(fyc); this.updateNAB(fyc); this.updateCommissionListUI(premium, allRates);
+                const total = fyc + this.STATE.currentMB + this.STATE.currentMYB + this.STATE.currentNAB;
+                setText('caseIncomeComm', fyc.toLocaleString() + " บาท");
                 setText('caseIncomeBonus', Math.round(this.STATE.currentMB).toLocaleString() + " บาท");
                 setText('caseIncomeMYBonus', Math.round(this.STATE.currentMYB).toLocaleString() + " บาท");
-                setText('caseIncomeTotal', totalIncome.toLocaleString() + " บาท");
-                setText('caseIncomePercent', "(" + ((totalIncome / premium) * 100).toFixed(1) + "%)");
+                setText('caseIncomeTotal', total.toLocaleString() + " บาท");
+                setText('caseIncomePercent', "(" + ((total / premium) * 100).toFixed(1) + "%)");
             },
-
             updateMB: function(newFYC) {
-                const existingFYC = this.getInputValue('existingFYCInput');
-                const totalFYC = newFYC + existingFYC;
+                const existing = this.getInputValue('existingFYCInput'); const totalFYC = newFYC + existing;
                 let curIdx = -1;
                 this.CONFIG.MB_TIERS.forEach((t, i) => {
                     const el = document.getElementById(t.id);
-                    if(el) {
-                        el.classList.remove("active", "hidden");
-                        if (totalFYC > t.max && i < this.CONFIG.MB_TIERS.length - 1) el.classList.add('hidden');
-                        if (totalFYC >= t.min) curIdx = i;
-                    }
+                    if(el) { el.classList.remove("active", "hidden"); if (totalFYC > t.max && i < this.CONFIG.MB_TIERS.length - 1) el.classList.add('hidden'); if (totalFYC >= t.min) curIdx = i; }
                 });
-
-                const currentRate = curIdx >= 0 ? this.CONFIG.MB_TIERS[curIdx].rate : 0;
-                const existIdx = this.CONFIG.MB_TIERS.findLastIndex(t => existingFYC >= t.min);
+                const rate = curIdx >= 0 ? this.CONFIG.MB_TIERS[curIdx].rate : 0;
+                const existIdx = this.CONFIG.MB_TIERS.findLastIndex(t => existing >= t.min);
                 const existRate = existIdx >= 0 ? this.CONFIG.MB_TIERS[existIdx].rate : 0;
-                
-                const existingBonus = Math.round(existingFYC * existRate);
-                const totalBonus = Math.round(totalFYC * currentRate);
-                this.STATE.currentMB = totalBonus - existingBonus;
-                
+                this.STATE.currentMB = Math.round(totalFYC * rate) - Math.round(existing * existRate);
                 if (curIdx >= 0) document.getElementById(this.CONFIG.MB_TIERS[curIdx].id)?.classList.add("active");
-                setText('mbExistingCalc', existingBonus.toLocaleString() + " บาท");
+                setText('mbExistingCalc', Math.round(existing * existRate).toLocaleString() + " บาท");
                 setText('mbCaseCalc', Math.round(this.STATE.currentMB).toLocaleString() + " บาท");
-                setText('mbCalculatedBonus', totalBonus.toLocaleString() + " บาท");
-                
-                if (currentRate === 0.35 && this.STATE.lastMaxMB !== totalFYC) {
-                    if (!document.getElementById('mbInputs').classList.contains('hidden')) this.showCongrats('โบนัสรายเดือน', '35%');
-                    this.STATE.lastMaxMB = totalFYC;
-                }
+                setText('mbCalculatedBonus', Math.round(totalFYC * rate).toLocaleString() + " บาท");
+                const adv = document.getElementById('mbAdviceText'); if(adv) { let n = this.CONFIG.MB_TIERS[curIdx+1]?.min || 0; adv.innerHTML = n > 0 ? `ขาดอีก <b>${(n - totalFYC).toLocaleString()} บาท</b> จะได้โบนัสเรทถัดไป!` : `รับโบนัสสูงสุด 35% แล้ว!`; }
             },
-
             updateMYB: function(newFYC) {
-                const existingFYC = this.getInputValue('existingHalfYearFYCInput');
-                const totalFYC = newFYC + existingFYC;
+                const existing = this.getInputValue('existingHalfYearFYCInput'); const totalFYC = newFYC + existing;
                 let curIdx = -1;
                 this.CONFIG.MYB_TIERS.forEach((t, i) => {
                     const el = document.getElementById(t.id);
-                    if(el) {
-                        el.classList.remove("active", "hidden");
-                        if (totalFYC > t.max && i < this.CONFIG.MYB_TIERS.length - 1) el.classList.add('hidden');
-                        if (totalFYC >= t.min) curIdx = i;
-                    }
+                    if(el) { el.classList.remove("active", "hidden"); if (totalFYC > t.max && i < this.CONFIG.MYB_TIERS.length - 1) el.classList.add('hidden'); if (totalFYC >= t.min) curIdx = i; }
                 });
-
-                const currentRate = curIdx >= 0 ? this.CONFIG.MYB_TIERS[curIdx].rate : 0;
-                const existIdx = this.CONFIG.MYB_TIERS.findLastIndex(t => existingFYC >= t.min);
+                const rate = curIdx >= 0 ? this.CONFIG.MYB_TIERS[curIdx].rate : 0;
+                const existIdx = this.CONFIG.MYB_TIERS.findLastIndex(t => existing >= t.min);
                 const existRate = existIdx >= 0 ? this.CONFIG.MYB_TIERS[existIdx].rate : 0;
-                
-                const existingBonus = Math.round(existingFYC * existRate);
-                const totalBonus = Math.round(totalFYC * currentRate);
-                this.STATE.currentMYB = totalBonus - existingBonus;
-                
+                this.STATE.currentMYB = Math.round(totalFYC * rate) - Math.round(existing * existRate);
                 if (curIdx >= 0) document.getElementById(this.CONFIG.MYB_TIERS[curIdx].id)?.classList.add("active");
-                setText('mybCalculatedBonus', totalBonus.toLocaleString() + " บาท");
+                setText('mybCalculatedBonus', Math.round(totalFYC * rate).toLocaleString() + " บาท");
+                const adv = document.getElementById('mybAdviceText'); if(adv) { let n = this.CONFIG.MYB_TIERS[curIdx+1]?.min || 0; adv.innerHTML = n > 0 ? `ขาดอีก <b>${(n - totalFYC).toLocaleString()} บาท</b> เพื่ออัปเลเวล!` : `รับโบนัสสูงสุด 35% แล้ว!`; }
             },
-
             updateNAB: function(newFYC) {
-                const existingFYC = this.getInputValue('existingNABFYC');
-                const existingCases = parseInt(document.getElementById('existingNABCases')?.value) || 0;
-                const phase = document.getElementById('nabPhaseSelect')?.value || 'p1';
-                const totalFYC = newFYC + existingFYC;
-                const totalCases = 1 + existingCases;
-                
-                let tiers = phase === 'p1' 
-                    ? [{ minFYC: 20000, minCases: 3, bonus: 6000 }, { minFYC: 50000, minCases: 5, bonus: 15000 }] 
-                    : [{ minFYC: 40000, minCases: 5, bonus: 10000 }, { minFYC: 100000, minCases: 10, bonus: 25000 }];
-
-                let nabBonus = 0;
-                tiers.forEach(t => { if (totalFYC >= t.minFYC && totalCases >= t.minCases) nabBonus = t.bonus; });
-                this.STATE.currentNAB = nabBonus;
-                setText('nabCalculatedBonus', nabBonus.toLocaleString() + " บาท");
+                const existing = this.getInputValue('existingNABFYC'); const cases = (parseInt(document.getElementById('existingNABCases')?.value) || 0) + 1;
+                const totalFYC = newFYC + existing; const phase = document.getElementById('nabPhaseSelect')?.value || 'p1';
+                let tiers = phase === 'p1' ? [{f:20000, c:3, b:6000}, {f:50000, c:5, b:15000}] : [{f:40000, c:5, b:10000}, {f:100000, c:10, b:25000}];
+                let bonus = 0; tiers.forEach(t => { if(totalFYC >= t.f && cases >= t.c) bonus = t.b; });
+                this.STATE.currentNAB = bonus; setText('nabCalculatedBonus', bonus.toLocaleString() + " บาท");
+                const adv = document.getElementById('nabAdviceText'); if(adv) adv.innerHTML = cases < 3 ? `สะสมอีก <b>${3 - cases} ราย</b> จะเริ่มมีสิทธิ์รับ NAB` : `คุณสมบัติจำนวนรายครบแล้ว`;
             },
-
             updateCommissionListUI: function(premium, rates) {
-                const el = document.getElementById('comList');
-                if(!el) return;
+                const el = document.getElementById('comList'); if(!el) return;
                 let html = '', total = 0;
-                rates.forEach((r, i) => {
-                    const amt = Math.round(premium * r);
-                    total += amt;
-                    html += `<div class="com-item-row"><div class="com-year-pill">ปีที่ ${i+1}</div><div class="com-percent-label">${(r*100).toFixed(2)}%</div><div class="com-amount-value">${amt.toLocaleString()} ฿</div></div>`;
-                });
-                html += `<div class="com-item-row" style="border-top:1px dashed #fbbf24; margin-top:5px; padding-top:10px;"><div class="com-percent-label">รวมคอมมิชชันสะสม</div><div class="com-amount-value" style="color:#d97706; font-size:1.1rem">${total.toLocaleString()} ฿</div></div>`;
+                rates.forEach((r, i) => { let amt = Math.round(premium * r); total += amt; html += `<div class="com-item-row"><div class="com-year-pill">ปีที่ ${i+1}</div><div class="com-percent-label">${(r*100).toFixed(2)}%</div><div class="com-amount-value">${amt.toLocaleString()} ฿</div></div>`; });
+                html += `<div class="com-item-row" style="border-top:1px dashed #fbbf24; margin-top:5px; padding-top:10px;"><div class="com-percent-label">รวมคอมมิชชันตลอดสัญญา</div><div class="com-amount-value" style="color:#d97706; font-size:1.1rem">${total.toLocaleString()} ฿</div></div>`;
                 el.innerHTML = html;
             },
-
-            getInputValue: function(id) {
-                const el = document.getElementById(id);
-                return el ? parseFloat(el.value.replace(/,/g, '')) || 0 : 0;
-            },
-
+            getInputValue: function(id) { const el = document.getElementById(id); return el ? parseFloat(el.value.replace(/,/g, '')) || 0 : 0; },
             showCongrats: function(type, value) {
-                const p = document.createElement('div');
-                p.className = "fixed inset-0 z-[600] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm";
-                p.innerHTML = `<div class="bg-white rounded-[35px] p-8 text-center shadow-2xl max-w-xs w-full"><div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5"><i class="fas fa-trophy text-3xl"></i></div><h2 class="text-xl font-bold mb-2">ยินดีด้วย!</h2><p class="text-slate-500 text-sm mb-6">คุณทำยอดสะสมถึงระดับสูงสุดแล้ว!<br>รับ${type} <span class="text-emerald-600 font-bold">${value}</span></p><button onclick="this.parentElement.parentElement.remove()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold">ยอดเยี่ยม</button></div>`;
+                const p = document.createElement('div'); p.className = "fixed inset-0 z-[600] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm";
+                p.innerHTML = `<div class="bg-white rounded-[35px] p-8 text-center shadow-2xl max-w-xs w-full"><div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5"><i class="fas fa-trophy text-3xl"></i></div><h2 class="text-xl font-bold mb-2">ยินดีด้วย!</h2><p class="text-slate-500 text-sm mb-6">สะสมถึงระดับสูงสุด!<br>รับ${type} <span class="text-emerald-600 font-bold">${value}</span></p><button onclick="this.parentElement.parentElement.remove()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold">ยอดเยี่ยม</button></div>`;
                 document.body.appendChild(p);
             }
         };
 
-        // --- 3. AI Advisor Pools ---
+        // --- Advisor Data Pools ---
         const aiStatsPool = [
-            { t: "สถิติมะเร็ง 5 อวัยวะหลัก", c: "มะเร็งตับและปอดครองอันดับ 1 สาเหตุการเสียชีวิตของไทย SLB จึงจ่าย 30% Advance ทันทีเมื่อตรวจพบ (ปอด, ตับ, ตับอ่อน, ทางเดินน้ำดี, หลอดอาหาร) โดยทุนมรดกไม่ลดลง" },
-            { t: "สถิติกลุ่ม Wealth ในไทย", c: "ลูกค้าที่มีสินทรัพย์ 10 ล้านขึ้นไป มักเจอปัญหาสภาพคล่องเมื่อต้องโอนย้ายมรดก (Probate Delays) การมีเงินสด 10 ล้านในรูปประกันชีวิตช่วยแก้ปัญหานี้ได้ทันที" },
-            { t: "Double Protection: 200%", c: "SLB จ่ายเพิ่ม 100% (สูงสุด 100 ล้าน) จากทุนหลัก สำหรับมะเร็ง 5 อวัยวะเสี่ยง ทำให้คุณมีกองทุนค่ารักษาและกองมรดกแยกจากกันอย่างชัดเจน" },
-            { t: "ภาษีมรดกสำหรับสินทรัพย์สูง", c: "สินทรัพย์เกิน 100 ล้านต้องเสียภาษี 5-10% เงินประกันชีวิตคือเงินสดก้อนเดียวที่ปลอดภาษีมรดก 100% และเข้าถึงได้เร็วที่สุด" },
-            { t: "จุดต่างสำคัญ: 90% ให้ทายาท", c: "Signature Legacy จ่าย 90% ให้ทายาททันทีในระยะสุดท้าย เพื่อเป็นกองทุนสภาพคล่องจัดการภาระล่วงหน้า โดยไม่ต้องรอใบมรณบัตร" },
-            { t: "อัตราเงินเฟ้อทางการแพทย์", c: "ค่ารักษาโรคร้ายแรงพุ่งสูง 8-10% ต่อปี การทำทุนประกัน SLB หลักสิบล้านคือการล็อคต้นทุนการส่งต่อมรดกในราคาที่คุ้มค่าที่สุดวันนี้" },
-            { t: "สังคมอายุยืน (Aging Society)", c: "คนไทยอายุยืนขึ้น แต่ค่าใช้จ่ายในช่วง 10 ปีสุดท้ายมักเกิน 5 ล้านบาท แผนมรดกช่วยรักษาความมั่งคั่งไม่ให้รั่วไหลไปกับค่ารักษาพยาบาล" },
-            { t: "มะเร็งทางเดินน้ำดี: ภัยคนไทย", c: "พบมากที่สุดในภาคอีสานและเหนือ SLB เล็งเห็นความสำคัญจึงจ่ายผลประโยชน์ล่วงหน้า 30% เพื่อเป็นทางเลือกในการรักษาที่ดีที่สุด" },
-            { t: "ความเสี่ยงอุบัติเหตุวัยทำงาน", c: "กลุ่มหัวหน้าครอบครัวอายุ 30-55 ปี มีสถิติอุบัติเหตุสูงสุด การมีมรดกเงินสด 10 ล้านคือเครื่องยืนยันว่าลูกจะยังได้เรียนต่อจนจบแม้เกิดเหตุไม่คาดฝัน" },
-            { t: "Wealth Protection Strategy", c: "นักธุรกิจส่วนใหญ่นำเงินไปหมุนเวียนในธุรกิจ การใช้เบี้ยประกันเพียงเศษเสี้ยวเพื่อการันตีเงินสด 10 ล้านให้ลูก คือการบริหารความเสี่ยงที่ฉลาดที่สุด" }
+            { t: "สถิติมะเร็ง 5 อวัยวะหลัก (30% Advance)", c: "มะเร็งตับและปอดเป็นสาเหตุการตายอันดับ 1 ของไทย SLB จ่ายผลประโยชน์ล่วงหน้า 30% ทันทีที่ตรวจพบ (ปอด, ตับ, ตับอ่อน, ทางเดินน้ำดี, หลอดอาหาร) โดยทุนมรดกไม่ลดลง" },
+            { t: "จุดต่างสำคัญ: 90% ให้ทายาททันใจ", c: "Signature Legacy จ่ายทุน 90% ให้ทายาททันทีในระยะสุดท้าย เพื่อเป็นกองทุนสภาพคล่องจัดการธุระโดยไม่ต้องรอใบมรณบัตรหรือคำสั่งศาล" },
+            { t: "กลุ่มลูกค้ามั่งคั่ง (HNW)", c: "ลูกค้าที่มีสินทรัพย์ 10 ล้านขึ้นไป มักเจอปัญหาสภาพคล่องในการโอนย้ายมรดก ประกันชีวิตคือสินทรัพย์เดียวที่โอนย้ายได้เร็วที่สุดและปลอดภาษีมรดก 100%" }
         ];
 
         const aiCostPool = [
             "• ยามุ่งเป้า (Targeted Therapy) มะเร็งปอด: 200,000 - 450,000 บาท/เดือน",
             "• ผ่าตัดบายพาสหัวใจ (รพ.เอกชนชั้นนำ): 800,000 - 1,800,000 บาท",
-            "• ภาษีมรดกสำหรับกองมรดก 150 ล้าน: ประมาณ 2.5 - 5 ล้านบาท",
-            "• ค่าจ้างพยาบาลดูแลพิเศษที่บ้าน (24 ชม.): 45,000 - 75,000 บาท/เดือน",
-            "• การฉายแสงและคีโมครบจบคอร์ส: 600,000 - 1,500,000 บาท",
-            "• ค่าฟื้นฟูสมรรถภาพหลัง Stroke: 300,000 - 600,000 บาท/ปี",
-            "• อุปกรณ์พยุงชีพและเตียงไฟฟ้า VVIP ที่บ้าน: 400,000 - 800,000 บาท",
-            "• ค่ารักษามะเร็งตับด้วยอนุภาคโปรตอน: 1,000,000 - 2,500,000 บาท",
-            "• ค่าธรรมเนียมกฎหมายจัดการมรดก: 2-3% ของมูลค่าทรัพย์สิน",
-            "• ค่าห้องพักฟื้น VVIP ในโรงพยาบาล: 25,000 - 60,000 บาท/คืน"
+            "• ภาษีมรดกสำหรับกองมรดก 150 ล้าน: ประมาณ 2.5 - 5 ล้านบาท"
         ];
 
         const aiIdeaPool = [
-            { t: "มรดก 90% ให้ทายาททันใจ", i: "เน้นจุดขาย SLB จ่าย 90% ให้ทายาททันทีเมื่อเข้าสู่ระยะสุดท้าย เพื่อเป็นสภาพคล่องจัดการธุระโดยไม่ต้องรอพินัยกรรม", c: "วันนี้เราเตรียมเงินก้อนนี้โอนเข้าบัญชีทายาททันทีในวันที่จำเป็นที่สุด สมัครแผนนี้ไว้เลยนะครับ" },
-            { t: "กองทุนสู้มะเร็ง 30% Advance", i: "รับเงิน 30% ทันทีที่พบมะเร็ง 5 อวัยวะหลัก โดยทุนหลักไม่ลดลง เหมือนได้เงินรักษาฟรีและได้มรดกให้ลูกเท่าเดิม", c: "เพราะมะเร็งตับและปอดรอไม่ได้ วันนี้ล็อคเงิน 3 ล้านมาเตรียมไว้รักษาเลยดีไหมครับ?" },
-            { t: "พินัยกรรมเงินสด..ปลอดภาษี", i: "ประกันชีวิตคือสินทรัพย์เดียวที่ไม่ถูกคำนวณภาษีมรดก และโอนย้ายได้เร็วที่สุดโดยไม่มีใครค้านได้", c: "สร้างกองมรดกที่ปลอดภาษี 100% ให้ลูกหลาน ยืนยันข้อมูลในใบเสนอราคานี้เลยครับ" },
-            { t: "ทางลัดสร้างเงินสด 10 ล้าน", i: "ใช้เงินหลักหมื่นแลกสินทรัพย์หลักล้านทันที เหมาะสำหรับสร้างมรดกการันตีขั้นต่ำให้ลูก", c: "ใช้เงินเพียง 1-2% เพื่อจองเงินมรดก 10 ล้านให้ครอบครัว เริ่มต้นคุ้มครองวันนี้เลยนะครับ" },
-            { t: "กลยุทธ์ Asset Equalization", i: "แบ่งที่ดินให้คนโต แต่ให้เงินสดจากประกัน 10 ล้านให้คนเล็ก เพื่อความยุติธรรมและลดความขัดแย้งในครอบครัว", c: "เพื่อให้ลูกทุกคนได้รับความรักที่เสมอภาคกัน การมีเงินสดที่แบ่งง่ายคือทางออกที่ดีที่สุดครับ" },
-            { t: "Keyman Protection ปกป้องธุรกิจ", i: "ใช้ทุนประกัน 10 ล้านเป็นหลักค้ำประกันหนี้ เพื่อไม่ให้ภาระหนี้ตกไปสู่ครอบครัวหากเกิดเหตุไม่คาดฝัน", c: "รักษาความมั่งคั่งของครอบครัวให้ปลอดภัยจากความเสี่ยงทางธุรกิจ สมัครแผนการปกป้องวันนี้เลยนะครับ" },
-            { t: "ของขวัญข้ามรุ่น (Grandchild)", i: "คุณปู่คุณย่าทำมรดกส่งต่อให้หลานโดยตรง เพื่อการันตีทุนการศึกษาข้ามศตวรรษผ่านแผน Signature Legacy", c: "เงิน 10 ล้านนี้จะเป็นต้นทุนชีวิตที่มั่นคงที่สุดของหลาน มอบความรักผ่านแผนนี้เลยนะครับ" },
-            { t: "กองทุนดูแลระยะสุดท้าย VVIP", i: "ใช้สิทธิเบิกเงิน 90% ให้ทายาทจ้างพยาบาลพิเศษมาดูแลคุณที่บ้านอย่างดีที่สุด รักษาศักดิ์ศรีในวาระสุดท้าย", c: "เราจะไม่เป็นภาระใครในวันสุดท้าย ด้วยกองทุนที่เตรียมไว้จัดการทุกอย่างให้เราอย่างสมเกียรติครับ" },
-            { t: "Double Protection 200%", i: "รับทุนเพิ่ม 100% สำหรับมะเร็ง 5 ชนิด เท่ากับลูกได้มรดก และคุณได้ค่ารักษา รวมสิทธิประโยชน์สูงสุด 200%", c: "จ่ายเบี้ยยอดเดียวแต่คุ้มครอง 2 ชั้น ทั้งชีวิตและโรคร้ายแรง สมัครวันนี้เพื่อความสบายใจนะครับ" },
-            { t: "บริหารกระแสเงินสดระดับ Wealth", i: "ย้ายเงินฝากกำไรต่ำมาเป็นกองมรดกกำไร 100 เท่า เป็นการวางแผนการเงินที่ชาญฉลาดที่สุดของนักธุรกิจ", c: "เปลี่ยนเงินหลักหมื่นเป็นพอร์ตมรดกสิบล้านทันที ยืนยันแผนชำระแบบ 5 ปี หรือ 10 ปีดีครับ?" }
+            { t: "มรดก 90% ให้ทายาททันใจ", i: "เน้นจุดเด่นที่ SLB จ่ายเงินให้ทายาทล่วงหน้า 90% ในวาระสุดท้าย เพื่อเตรียมความพร้อมและจัดการธุระต่างๆ โดยไม่ต้องรอพินัยกรรม", c: "วันนี้เราเตรียมเงินก้อนนี้โอนเข้าบัญชีทายาททันทีในวันที่จำเป็นที่สุด สมัครแผนนี้ไว้เลยนะครับ" },
+            { t: "กองทุนสู้มะเร็ง 30% Advance", i: "รับเงิน 30% ทันทีเมื่อพบมะเร็ง 5 จุดเสี่ยง โดยทุนหลักไม่ลดลง เหมือนได้ค่ารักษาฟรีและยังคงมรดก 100% ให้ลูก", c: "เพราะโรคร้ายรอไม่ได้ วันนี้ล็อคเงินสด 3 ล้านจากทุน 10 ล้านมาเตรียมไว้รักษาเลยดีไหมครับ?" },
+            { t: "บริหารกระแสเงินสดระดับ Wealth", i: "ย้ายเงินฝากกำไรต่ำมาเป็นกองมรดกกำไร 100 เท่า เป็นการ Leverage สินทรัพย์ที่คุ้มค่าที่สุดสำหรับนักธุรกิจ", c: "เปลี่ยนเงินหลักหมื่นเป็นพอร์ตมรดกสิบล้านให้ครอบครัวทันที ยืนยันแผนชำระแบบ 5 ปี หรือ 10 ปีดีครับ?" }
         ];
 
-        // --- 4. Core Logic Functions ---
+        // --- Utility Functions ---
+        function setText(id, text) { const el = document.getElementById(id); if (el) el.innerText = text; }
+
+        // --- Main Functions ---
         function getCommissionRateArray(plan, age) {
             if (plan === '5SLB') {
                 if (age <= 25) return [0.15, 0.06, 0.0375, 0.01, 0.01];
@@ -541,74 +459,55 @@
             return [0];
         }
 
-        function calculate(source) { 
-            const age = parseInt(document.getElementById('ageInput').value || 30); 
-            const rate = LIFE_RATES[currentPlan][currentGender][age] || 0;
+        function calculate(source) {
+            currentMode = source; 
+            const age = parseInt(document.getElementById('ageInput').value || 30);
+            const rate = LIFE_RATES[currentPlan][currentGender][age] || 0; 
             if (rate <= 0) return null;
-            let fSum = 0, fPrem = 0; 
-            if (source === 'sum') { 
-                fSum = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')) || 0; 
-                fPrem = Math.round((fSum / 1000) * rate); 
-                document.getElementById('premiumInput').value = fPrem.toLocaleString(); 
-            } else { 
-                fPrem = parseFloat(document.getElementById('premiumInput').value.replace(/,/g, '')) || 0; 
-                fSum = (fPrem * 1000) / rate; 
-                document.getElementById('sumInsuredInput').value = Math.round(fSum).toLocaleString(); 
-            } 
-            lastCalculationData = { premium: fPrem, sum: fSum, gender: currentGender==='male'?'ชาย':'หญิง', age: age, years: currentPlan==='5SLB'?'5':'10' }; 
-            refreshAllDisplays(); return lastCalculationData; 
+            let fSum = 0, fPrem = 0;
+            if (source === 'sum') {
+                fSum = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')) || 0;
+                fPrem = Math.round((fSum / 1000) * rate); document.getElementById('premiumInput').value = fPrem.toLocaleString();
+            } else {
+                fPrem = parseFloat(document.getElementById('premiumInput').value.replace(/,/g, '')) || 0;
+                fSum = (fPrem * 1000) / rate; document.getElementById('sumInsuredInput').value = Math.round(fSum).toLocaleString();
+            }
+            lastCalculationData = { premium: fPrem, sum: fSum, age: age, gender: currentGender==='male'?'ชาย':'หญิง', years: currentPlan==='5SLB'?'5':'10' };
+            refreshAllDisplays(); return lastCalculationData;
         }
 
-        function refreshAllDisplays() { 
-            if (!lastCalculationData) return; 
-            const p = lastCalculationData.premium; 
-            const age = lastCalculationData.age;
-            const rates = getCommissionRateArray(currentPlan, age);
-            CASH_MODULE.refresh(p, rates[0], rates);
-            setText('sumMonthly', Math.round(p * 0.09).toLocaleString()); 
-            setText('sum3Month', Math.round(p * 0.27).toLocaleString()); 
-            setText('sum6Month', Math.round(p * 0.52).toLocaleString()); 
+        function refreshAllDisplays() {
+            if (!lastCalculationData) return;
+            const rates = getCommissionRateArray(currentPlan, lastCalculationData.age);
+            CASH_MODULE.refresh(lastCalculationData.premium, rates[0], rates);
+            const p = lastCalculationData.premium;
+            setText('sumMonthly', Math.round(p * 0.09).toLocaleString());
+            setText('sum3Month', Math.round(p * 0.27).toLocaleString());
+            setText('sum6Month', Math.round(p * 0.52).toLocaleString());
         }
 
-        function updateAIStats(isManual = false) { 
-            const el = document.getElementById('aiStatsText');
-            if(!el) return;
-            if(isManual) el.innerHTML = `<div class="flex flex-col items-center py-5 text-indigo-300"><i class="fas fa-sync fa-spin mb-2"></i><p class="text-[9px] uppercase font-bold">สุ่มข้อมูลชุดใหม่...</p></div>`;
-            setTimeout(() => {
-                const item = aiStatsPool[Math.floor(Math.random() * aiStatsPool.length)];
-                el.innerHTML = `<div class="p-3 bg-indigo-50/50 rounded-2xl border border-indigo-100 shadow-sm animate-fade-in"><p class="font-bold text-indigo-900 mb-1 text-[13px]"><i class="fas fa-chart-line mr-2 text-indigo-500"></i>${item.t}</p><p class="text-slate-600 text-[12px] leading-relaxed">${item.c}</p></div>`;
-            }, isManual ? 400 : 0);
+        function updateAIStats(isManual = false) {
+            const el = document.getElementById('aiStatsText'); if(!el) return;
+            if(isManual) el.innerHTML = `<div class="flex flex-col items-center py-5 text-indigo-300"><i class="fas fa-sync fa-spin mb-2"></i><p class="text-[9px] uppercase font-bold">สุ่มข้อมูล...</p></div>`;
+            setTimeout(() => { const item = aiStatsPool[Math.floor(Math.random() * aiStatsPool.length)]; el.innerHTML = `<div class="p-3 bg-indigo-50/50 rounded-2xl border border-indigo-100"><p class="font-bold text-indigo-900 mb-1 text-[13px]"><i class="fas fa-chart-line mr-2"></i>${item.t}</p><p class="text-slate-600 text-[12px] leading-relaxed">${item.c}</p></div>`; }, isManual ? 400 : 0);
         }
 
-        function updateAICosts(isManual = false) { 
-            const el = document.getElementById('aiCostText');
-            if(!el) return;
-            if(isManual) el.innerHTML = `<div class="flex flex-col items-center py-5 text-rose-300"><i class="fas fa-sync fa-spin mb-2"></i><p class="text-[9px] uppercase font-bold">กำลังสุ่มข้อมูลค่าใช้จ่าย...</p></div>`;
-            setTimeout(() => {
-                const selected = aiCostPool.sort(() => 0.5 - Math.random()).slice(0, 4);
-                el.innerHTML = `<div class="space-y-2 text-[12px] text-slate-600">${selected.map(item => `<p class="p-2.5 bg-rose-50/40 border-l-2 border-rose-400 rounded-r-xl">${item}</p>`).join('')}<p class="text-[10px] text-rose-400 mt-2 italic px-1">*ราคาโดยประมาณ อาจมีการเปลี่ยนแปลง</p></div>`;
-            }, isManual ? 400 : 0);
+        function updateAICosts(isManual = false) {
+            const el = document.getElementById('aiCostText'); if(!el) return;
+            if(isManual) el.innerHTML = `<div class="flex flex-col items-center py-5 text-rose-300"><i class="fas fa-sync fa-spin mb-2"></i><p class="text-[9px] uppercase font-bold">สุ่มราคา...</p></div>`;
+            setTimeout(() => { const selected = aiCostPool.sort(() => 0.5 - Math.random()).slice(0, 3); el.innerHTML = `<div class="space-y-2 text-[12px] text-slate-600">${selected.map(i => `<p class="p-2.5 bg-rose-50/40 border-l-2 border-rose-400 rounded-r-xl">${i}</p>`).join('')}</div>`; }, isManual ? 400 : 0);
         }
 
-        function updateAIIdeas(isManual = false) { 
-            const el = document.getElementById('aiIdeaText');
-            if(!el) return;
-            if(isManual) el.innerHTML = `<div class="flex flex-col items-center py-5 text-amber-300"><i class="fas fa-sync fa-spin mb-2"></i><p class="text-[9px] uppercase font-bold">วิเคราะห์กลยุทธ์...</p></div>`;
-            setTimeout(() => {
-                const item = aiIdeaPool[Math.floor(Math.random() * aiIdeaPool.length)];
-                el.innerHTML = `<div class="space-y-3 animate-fade-in"><div class="p-3 bg-amber-50 rounded-2xl border border-amber-200"><p class="font-bold text-amber-900 mb-1 text-[13px]"><i class="fas fa-lightbulb mr-2 text-amber-500"></i>${item.t}</p><p class="text-slate-700 text-[12px] leading-relaxed">${item.i}</p></div><div class="closing-box border-l-4 border-blue-500 bg-blue-50"><p class="text-[10px] uppercase font-bold text-blue-400 mb-1">บทปิดการขาย:</p><p class="text-blue-900 italic">"${item.c}"</p></div></div>`;
-            }, isManual ? 400 : 0);
+        function updateAIIdeas(isManual = false) {
+            const el = document.getElementById('aiIdeaText'); if(!el) return;
+            if(isManual) el.innerHTML = `<div class="flex flex-col items-center py-5 text-amber-300"><i class="fas fa-sync fa-spin mb-2"></i><p class="text-[9px] uppercase font-bold">เปลี่ยนไอเดีย...</p></div>`;
+            setTimeout(() => { const item = aiIdeaPool[Math.floor(Math.random() * aiIdeaPool.length)]; el.innerHTML = `<div class="space-y-3"><div class="p-3 bg-amber-50 rounded-2xl border border-amber-200"><p class="font-bold text-amber-900 mb-1 text-[13px]"><i class="fas fa-lightbulb mr-2"></i>${item.t}</p><p class="text-slate-700 text-[12px] leading-relaxed">${item.i}</p></div><div class="closing-box"><p class="text-[10px] uppercase font-bold text-blue-400 mb-1">บทปิดการขาย:</p><p class="text-blue-900 italic">"${item.c}"</p></div></div>`; }, isManual ? 400 : 0);
         }
 
-        // --- 5. UI Control Functions ---
         function toggleSection(id) { document.getElementById(id).classList.toggle('hidden'); }
         function toggleAccordion(id) { toggleSection(id); }
         function toggleAIInnerSection(id) { toggleSection(id); }
-        function toggleAIAdvisor() { 
-            const c = document.getElementById('aiAdvisorContainer');
-            c.classList.toggle('hidden'); 
-            if(!c.classList.contains('hidden')) { updateAIStats(false); updateAICosts(false); updateAIIdeas(false); }
-        }
+        function toggleAIAdvisor() { const c = document.getElementById('aiAdvisorContainer'); c.classList.toggle('hidden'); if(!c.classList.contains('hidden')) { updateAIStats(false); updateAICosts(false); updateAIIdeas(false); } }
         function toggleCashMenu() { document.getElementById('cashMenuContainer').classList.toggle('hidden'); CASH_MODULE.refreshFromUI(); }
 
         function setGender(g) { currentGender = g; document.getElementById('btnMale').className = `flex-1 gender-btn ${g==='male'?'active':''}`; document.getElementById('btnFemale').className = `flex-1 gender-btn ${g==='female'?'active-pink':''}`; calculate('sum'); }
@@ -616,11 +515,7 @@
         function setQuickSum(v) { document.getElementById('sumInsuredInput').value = v.toLocaleString(); calculate('sum'); }
         function handleSumInput(el) { let v = el.value.replace(/,/g, ''); if(!isNaN(v) && v !== '') { el.value = Number(v).toLocaleString(); calculate('sum'); } }
         function handlePremiumInput(el) { let v = el.value.replace(/,/g, ''); if(!isNaN(v) && v !== '') { el.value = Number(v).toLocaleString(); calculate('premium'); } }
-        function checkMinLimit() { const v = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')); if(v < 10000000) { showCustomError("ทุนประกันขั้นต่ำ 10 ล้านบาท"); setQuickSum(10000000); } }
-        
-        function showCustomError(msg) { 
-            const toast = document.createElement('div'); toast.className = "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-8 py-4 rounded-2xl text-sm font-bold z-[800] shadow-2xl"; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 2500); 
-        }
+        function checkMinLimit() { const v = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')); if(v < 5000000) { setQuickSum(5000000); } }
 
         function closeModal() { document.getElementById('resultModal').classList.remove('show'); }
         function manualTriggerPopup() { const d = calculate('sum'); if(d) openModal(d); }
@@ -632,41 +527,33 @@
         }
 
         function copyInstallment(type) {
-            let elId = type === 'monthly' ? 'sumMonthly' : (type === '3month' ? 'sum3Month' : 'sum6Month');
-            const el = document.getElementById(elId);
+            let id = type === 'monthly' ? 'sumMonthly' : (type === '3month' ? 'sum3Month' : 'sum6Month');
+            const el = document.getElementById(id);
             if(el) {
-                const text = el.innerText + " บาท";
-                const textarea = document.createElement('textarea'); textarea.value = text; document.body.appendChild(textarea); textarea.select(); document.execCommand('copy'); document.body.removeChild(textarea);
-                const toast = document.createElement('div'); toast.className = "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-600 text-white px-8 py-4 rounded-2xl text-sm font-bold z-[800] shadow-2xl"; toast.innerText = "คัดลอกแล้ว"; document.body.appendChild(toast); setTimeout(() => toast.remove(), 2000);
+                const t = el.innerText + " บาท"; const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+                const toast = document.createElement('div'); toast.className = "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white px-8 py-4 rounded-2xl text-sm font-bold z-[800]"; toast.innerText = "คัดลอกยอดแล้ว"; document.body.appendChild(toast); setTimeout(() => toast.remove(), 1500);
             }
         }
 
         function processTextCommand() {
-            const t = document.getElementById('textCommand').value.toLowerCase();
-            const ageM = t.match(/(\d+)/);
+            const t = document.getElementById('textCommand').value.toLowerCase(); const ageM = t.match(/(\d+)/);
             if(ageM) document.getElementById('ageInput').value = ageM[1];
-            if(t.includes('ญ') || t.includes('หญิง')) setGender('female'); else if(t.includes('ช') || t.includes('ชาย')) setGender('male');
+            if(t.includes('ญ')) setGender('female'); else if(t.includes('ช')) setGender('male');
             if(t.includes('5')) setPlan('5SLB'); else if(t.includes('10')) setPlan('10SLB');
-            calculate('sum'); manualTriggerPopup();
-            document.getElementById('textCommand').value = "";
+            calculate('sum'); manualTriggerPopup(); document.getElementById('textCommand').value = "";
         }
 
         function startVoiceRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechRecognition) return;
-            const r = new SpeechRecognition(); r.lang = 'th-TH';
-            r.onstart = () => document.getElementById('voiceIcon').classList.add('listening-active');
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if(!SR) return;
+            const r = new SR(); r.lang = 'th-TH'; r.onstart = () => document.getElementById('voiceIcon').classList.add('listening-active');
             r.onresult = (e) => { document.getElementById('textCommand').value = e.results[0][0].transcript; processTextCommand(); };
-            r.onend = () => document.getElementById('voiceIcon').classList.remove('listening-active');
-            r.start();
+            r.onend = () => document.getElementById('voiceIcon').classList.remove('listening-active'); r.start();
         }
 
         function handleCopyAndClose() {
-            const d = lastCalculationData;
-            if(!d) return;
+            const d = lastCalculationData; if(!d) return;
             const t = `👤 เพศ ${d.gender} | อายุ ${d.age} ปี\n🛡️ ทุนประกัน ${Math.round(d.sum).toLocaleString()} บาท\n💰 เบี้ยประกันภัย : ${Math.round(d.premium).toLocaleString()} บาท\n⏳ ระยะชำระ ${d.years} ปี\n------------------\n🕊️ ความคุ้มครองชีวิต : ${Math.round(d.sum).toLocaleString()} บาท`;
-            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            closeModal();
+            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); closeModal();
         }
 
         window.onload = () => { calculate('sum'); };
