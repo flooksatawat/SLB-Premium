@@ -127,8 +127,8 @@
                     <div>
                         <p class="text-slate-500 text-[10px] font-bold uppercase mb-1.5 text-center tracking-wide">แผนประกัน</p>
                         <div class="flex gap-2">
-                            <button onclick="setPlan('10CX')" id="btn10CX" class="flex-1 gender-btn">5SLC</button>
-                            <button onclick="setPlan('20CX')" id="btn20CX" class="flex-1 gender-btn active-blue">10SLB</button>
+                            <button onclick="setPlan('5SLB')" id="btn5SLB" class="flex-1 gender-btn">5SLB</button>
+                            <button onclick="setPlan('10SLB')" id="btn10SLB" class="flex-1 gender-btn active-blue">10SLB</button>
                         </div>
                     </div>
                     <!-- ทุนประกัน -->
@@ -143,18 +143,13 @@
                         </div>
                         <input type="text" id="sumInsuredInput" value="5,000,000" class="input-box" oninput="handleSumInput(this)" onblur="checkMinLimit()">
                     </div>
-                    <!-- ออมเงิน -->
+                    
+                    <!-- ส่วนที่ 1: แก้ไขข้อความจาก ออมเงิน เป็น เบี้ยประกัน -->
                     <div>
-                        <p class="text-slate-500 text-[10px] font-bold uppercase mb-1.5 text-center tracking-wide">ออมเงิน (บาท)</p>
-                        <div class="grid grid-cols-5 gap-1.5 mb-2">
-                            <button onclick="setQuickPremium(12000)" class="quick-sum-btn">12,000</button>
-                            <button onclick="setQuickPremium(24000)" class="quick-sum-btn">24,000</button>
-                            <button onclick="setQuickPremium(36000)" class="quick-sum-btn">36,000</button>
-                            <button onclick="setQuickPremium(48000)" class="quick-sum-btn">48,000</button>
-                            <button onclick="setQuickPremium(60000)" class="quick-sum-btn">60,000</button>
-                        </div>
+                        <p class="text-slate-500 text-[10px] font-bold uppercase mb-1.5 text-center tracking-wide">เบี้ยประกัน (บาท)</p>
                         <input type="text" id="premiumInput" class="input-box" value="0" oninput="handlePremiumInput(this)" onblur="checkMinLimit()">
                     </div>
+                    
                     <button onclick="manualTriggerPopup()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all text-sm uppercase mt-2">ดูสรุปการคำนวณ</button>
                     <button onclick="toggleInstallmentDetails()" class="w-full bg-slate-50 border border-slate-200 py-3 rounded-2xl text-[11px] font-bold text-slate-600 flex items-center justify-center gap-2 mt-2 active:bg-slate-100 transition-colors">
                         <i class="fas fa-credit-card text-blue-800"></i> ตัวเลือกการชำระเงิน
@@ -288,7 +283,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    <!-- Modal ผลลัพธ์ -->
     <div id="resultModal" class="modal-overlay" onclick="closeModal()">
         <div class="modal-content-card" onclick="event.stopPropagation()">
             <div class="bg-blue-900 p-8 text-center text-white flex-shrink-0 shadow-lg"><i class="fas fa-check-circle text-5xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold tracking-wide">สรุปผลการคำนวณ</h3></div>
@@ -296,29 +291,13 @@
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <div class="text-center p-3.5 bg-slate-50 rounded-2xl border border-slate-100"><span class="text-[9px] text-slate-400 font-bold uppercase block mb-1">เพศ</span><span id="modalGender" class="text-sm font-bold text-blue-900">-</span></div>
                     <div class="text-center p-3.5 bg-slate-50 rounded-2xl border border-slate-100"><span class="text-[9px] text-slate-400 font-bold uppercase block mb-1">อายุ</span><span id="modalAge" class="text-sm font-bold text-blue-900">-</span></div>
-                    <div class="text-center p-3.5 bg-slate-50 rounded-2xl border border-slate-100"><span class="text-[9px] text-slate-400 font-bold uppercase block mb-1">ระยะออม</span><span id="modalYears" class="text-sm font-bold text-blue-900">-</span></div>
+                    <div class="text-center p-3.5 bg-slate-50 rounded-2xl border border-slate-100"><span class="text-[9px] text-slate-400 font-bold uppercase block mb-1">ระยะชำระ</span><span id="modalYears" class="text-sm font-bold text-blue-900">-</span></div>
                 </div>
                 <div class="space-y-4">
-                    <div class="flex justify-between items-center p-5 bg-blue-50 rounded-2xl border border-blue-100"><span class="text-xs text-blue-700 font-bold uppercase tracking-wider">ออมเงิน</span><span id="modalPremium" class="text-base font-bold text-blue-900">0 บาท</span></div>
+                    <div class="flex justify-between items-center p-5 bg-blue-50 rounded-2xl border border-blue-100"><span class="text-xs text-blue-700 font-bold uppercase tracking-wider">เบี้ยประกันภัย</span><span id="modalPremium" class="text-base font-bold text-blue-900">0 บาท</span></div>
                     <div class="flex justify-between items-center p-5 bg-emerald-50 rounded-2xl border border-emerald-100"><span class="text-xs text-emerald-700 font-bold uppercase tracking-wider">ทุนประกัน</span><span id="modalSum" class="text-base font-bold text-emerald-700">0.00 บาท</span></div>
-                    <div id="modalChildRow" class="hidden flex flex-col p-5 bg-blue-50 rounded-2xl border border-blue-100">
-                        <span class="text-xs text-blue-700 font-bold uppercase tracking-wider">ตรวจพบ 1 ใน 15 โรคเด็ก</span>
-                        <div class="flex justify-between items-end mt-1"><span class="text-xs text-blue-700 font-bold">จ่าย</span><span id="modalChildCI" class="text-base font-bold text-blue-700">0.00 บาท</span></div>
-                    </div>
-                    <div class="flex flex-col p-5 bg-amber-50 rounded-2xl border border-amber-100">
-                        <span class="text-xs text-amber-700 font-bold uppercase tracking-wider">ตรวจพบ 1 ใน 5 โรคร้าย</span>
-                        <div class="flex justify-between items-end mt-1"><span class="text-xs text-amber-700 font-bold">จ่าย (สูงสุด 4 ครั้ง)</span><span id="modalExtraCI" class="text-base font-bold text-amber-700">0.00 บาท</span></div>
-                    </div>
-                    <div class="flex flex-col p-5 bg-amber-50 rounded-2xl border border-amber-100">
-                        <span class="text-xs text-amber-700 font-bold uppercase tracking-wider">ตรวจพบ 1 ใน 45 โรคร้าย (ภายหลัง)</span>
-                        <div class="flex justify-between items-end mt-1"><span class="text-xs text-amber-700 font-bold">จ่าย</span><span id="modalMajorCI" class="text-base font-bold text-amber-700">0.00 บาท</span></div>
-                    </div>
-                    <div class="flex flex-col p-5 bg-red-50 rounded-2xl border border-red-100">
-                        <span class="text-xs text-red-700 font-bold uppercase tracking-wider">ตรวจพบ 1 ใน 45 โรคร้าย (ก่อน)</span>
-                        <div class="flex justify-between items-end mt-1"><span class="text-xs text-red-700 font-bold">จ่าย</span><span id="modalMajorCIBefore" class="text-base font-bold text-red-700">0.00 บาท</span></div>
-                    </div>
                     <div class="flex flex-col p-5 bg-indigo-50 rounded-2xl border border-indigo-100">
-                        <span class="text-xs text-indigo-700 font-bold uppercase tracking-wider leading-tight">จากไปหรือครบสัญญา</span>
+                        <span class="text-xs text-indigo-700 font-bold uppercase tracking-wider leading-tight">ความคุ้มครองชีวิต 105% (จากไปหรือครบสัญญา)</span>
                         <div class="flex justify-between items-end mt-1"><span class="text-xs text-indigo-700 font-bold">จ่าย</span><span id="modalMaturity" class="text-base font-bold text-indigo-900">0.00 บาท</span></div>
                     </div>
                 </div>
@@ -326,70 +305,56 @@
             </div>
         </div>
     </div>
-    <div id="definitionModal" class="fixed inset-0 z-[700] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeDefinition()">
-        <div class="bg-white/95 backdrop-blur-md w-full max-w-[92vw] md:max-w-md rounded-[40px] shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="defModalContent" onclick="event.stopPropagation()">
-            <div class="p-6 pb-0 flex justify-between items-start">
-                <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl shrink-0"><i class="fas fa-book-medical"></i></div>
-                <button onclick="closeDefinition()" class="text-slate-400 hover:text-slate-600 text-3xl w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 leading-none">&times;</button>
-            </div>
-            <div class="px-6 pt-4 overflow-y-auto flex-1 custom-scrollbar">
-                <h3 id="defTitle" class="text-lg font-bold text-blue-900 mb-2 leading-tight"></h3>
-                <div id="defDescription" class="text-[13px] text-slate-700 leading-relaxed font-medium whitespace-pre-wrap pb-4"></div>
-            </div>
-            <div class="p-6 pt-0">
-                <button onclick="closeDefinition()" class="w-full py-4 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-2xl active:scale-95 transition-transform shadow-lg">ปิดหน้าต่างนี้</button>
-            </div>
-        </div>
-    </div>
+
     <script>
         const setText = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
         const formatNum = (num) => { const rounded = Math.round(num * 100) / 100; return Number.isInteger(rounded) ? rounded.toLocaleString() : rounded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); };
-        let currentPlan = '20CX', currentGender = 'male', lastCalculationData = null, currentMode = 'sum';
+        let currentPlan = '10SLB', currentGender = 'male', lastCalculationData = null, currentMode = 'sum';
         
-        // แก้ไขคอมมิชชันตามภาพ (5SLB = 25% และ 10SLB = 40%)
+        // คอมมิชชัน Signature Legacy (5SLB/10SLB)
         const COM_RATES = { 
-            "10CX": [0.25], 
-            "20CX": [0.40] 
+            "5SLB": [0.25], 
+            "10SLB": [0.40] 
         };
 
-        const zero40 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         const LIFE_RATES = { 
-            "10CX": { 
-                "male": [20.38, 20.97, 22.19, 23.21, 24.22, 25.35, 26.58, 27.83, 28.79, 29.76, 30.73, 31.70, 32.67, 33.64, 34.61, 35.58, 36.80, 38.04, 39.25, 40.49, 41.64, 42.85, 44.09, 45.32, 46.55, 47.79, ...zero40], 
-                "female": [16.39, 17.00, 18.12, 19.07, 20.02, 20.99, 22.07, 23.07, 23.85, 24.62, 25.46, 26.23, 26.99, 27.75, 28.59, 29.35, 30.43, 31.20, 31.96, 32.80, 33.92, 34.69, 35.46, 36.32, 37.08, 37.84, ...zero40] 
+            "5SLB": { 
+                "male": [20.38, 20.97, 22.19, 23.21, 24.22, 25.35, 26.58, 27.83, 28.79, 29.76, 30.73, 31.70, 32.67, 33.64, 34.61, 35.58, 36.80, 38.04, 39.25, 40.49, 41.64, 42.85, 44.09, 45.32, 46.55, 47.78, 48.83, 49.88, 50.93, 51.98, 52.70, 54.38, 55.97, 57.65, 59.87, 61.57, 63.54, 65.84, 68.30, 69.80, 72.87, 75.34, 77.74, 80.56, 83.42, 86.30, 89.02, 91.83, 94.55, 97.30, 101.06, 103.81, 106.56, 109.32, 112.21, 117.99, 120.82, 124.34, 127.13, 131.30, 134.51, 135.40, 138.55, 141.82, 146.40, 149.61, 154.36, 159.24, 164.25, 169.41, 174.71], 
+                "female": [16.39, 17.00, 18.12, 19.07, 20.02, 20.99, 22.07, 23.07, 23.85, 24.62, 25.46, 26.23, 26.99, 27.75, 28.59, 29.35, 30.43, 31.20, 31.96, 32.80, 33.92, 34.69, 35.46, 36.32, 37.08, 39.03, 39.81, 40.60, 41.47, 42.25, 43.85, 45.45, 46.95, 48.52, 50.02, 51.87, 53.81, 55.67, 57.63, 59.57, 61.72, 63.99, 66.26, 68.80, 71.47, 74.18, 76.88, 79.51, 82.23, 85.00, 87.79, 90.89, 94.03, 97.09, 100.30, 106.63, 110.85, 115.07, 117.75, 121.57, 124.15, 125.28, 128.31, 132.47, 135.55, 139.91, 143.10, 147.70, 153.81, 158.72, 163.77] 
             }, 
-            "20CX": { 
-                "male": [15.82, 16.25, 16.72, 17.22, 17.74, 18.27, 18.77, 19.30, 19.84, 20.42, 21.02, 21.65, 22.30, 22.97, 23.64, 24.34, 24.78, 25.22, 25.80, 26.26, 26.73, 27.34, 27.84, 28.36, 28.90, 29.44, ...zero40], 
-                "female": [12.67, 12.97, 13.31, 13.66, 14.05, 14.45, 14.88, 15.33, 15.79, 16.29, 16.80, 17.34, 17.89, 18.47, 18.86, 19.26, 19.78, 20.21, 20.65, 21.11, 21.58, 22.54, 23.28, 24.11, 24.55, 24.99, ...zero40] 
+            "10SLB": { 
+                "male": [15.82, 16.25, 16.72, 17.22, 17.74, 18.27, 18.77, 19.30, 19.84, 20.42, 21.02, 21.65, 22.30, 22.97, 23.64, 24.34, 24.78, 25.22, 25.80, 26.26, 26.73, 27.34, 27.84, 28.36, 28.90, 29.79, 30.39, 31.02, 31.69, 32.37, 33.11, 34.04, 34.83, 35.68, 36.55, 38.10, 39.05, 40.35, 41.30, 42.82, 45.31, 46.10, 46.89, 48.05, 49.37, 50.50, 51.98, 53.49, 55.07, 56.72, 59.34, 61.15, 63.02, 64.99, 67.05, 69.55, 71.81, 74.19, 76.68, 79.33, 80.77, 81.73, 83.06, 84.42, 85.77, 87.13, 88.60, 91.54, 95.46, 100.36, 107.33], 
+                "female": [12.67, 12.97, 13.31, 13.66, 14.05, 14.45, 14.88, 15.33, 15.79, 16.29, 16.80, 17.34, 17.89, 18.47, 18.86, 19.26, 19.78, 20.21, 20.65, 21.11, 21.58, 22.54, 23.28, 24.11, 24.55, 25.31, 25.81, 26.33, 26.89, 27.45, 28.65, 29.30, 29.98, 30.68, 31.43, 32.90, 33.78, 34.77, 35.86, 37.00, 38.59, 39.47, 40.38, 41.34, 42.39, 43.62, 44.88, 46.23, 47.65, 49.13, 51.20, 52.82, 54.53, 56.32, 58.18, 60.44, 62.50, 64.63, 66.88, 69.25, 71.72, 73.97, 76.71, 79.50, 81.36, 82.41, 83.88, 86.82, 90.74, 95.64, 101.52] 
             } 
-        };
-        const CI_RATES = { 
-            "10CX": { "male": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, ...zero40], "female": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, ...zero40] }, 
-            "20CX": { "male": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, ...zero40], "female": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, ...zero40] } 
         };
 
         const aiPool = {
-            stats_adult: ["• สถิติมะเร็ง: มะเร็งเป็นสาเหตุการตายอันดับ 1 ของไทย", "• หลอดเลือดสมอง (Stroke): พบผู้ป่วยใหม่กว่า 250,000 ราย/ปี"],
-            stats_child: ["• โรคฮิตวัยเด็ก: โรคมือ เท้า ปาก ที่มีอาการแทรกซ้อนรุนแรง", "• โรคหัวใจในเด็ก: โรคคาวาซากิ"],
-            costs_adult: ["• ผ่าตัดบายพาสหัวใจ: 600,000 - 1,200,000 บาท", "• ยามุ่งเป้า: 1,500,000 - 3,000,000 บาท"],
-            costs_child: ["• ผ่าตัดลิ้นหัวใจ: 400,000 - 800,000 บาท", "• คีโมบำบัดเด็ก: 300,000 - 1,000,000 บาท"],
-            ideas_adult: [
-                "<strong>กลยุทธ์ ตู้ ATM ประจำบ้าน</strong><br><div class='closing-box'>บทปิดการขาย: 'เพื่อให้ตู้ ATM เครื่องนี้ดูแลครอบครัวได้ตลอดไป วันนี้เริ่มต้นแผนนี้เลยนะครับ'</div>",
-                "<strong>กลยุทธ์ รถยนต์ VS ร่างกาย</strong><br><div class='closing-box'>บทปิดการขาย: 'มาทำประกันชั้น 1 ให้กับคนหาเงินเข้าบ้านกันนะครับ เซ็นรับสิทธิ์ตรงนี้ได้เลยครับ'</div>"
-            ],
-            ideas_child: [
-                "<strong>กลยุทธ์ ใบเบิกทาง VIP</strong><br><div class='closing-box'>บทปิดการขาย: 'เพื่อทางเลือกที่ดีที่สุดให้น้องในวันวิกฤต เริ่มต้นสวัสดิการให้น้องวันนี้เลยนะครับ'</div>",
-                "<strong>กลยุทธ์ ค่าตกใจ</strong><br><div class='closing-box'>บทปิดการขาย: 'ให้เงินก้อนนี้เป็นเบี้ยเลี้ยงระหวางดูแลน้องนะครับ คุณแม่สะดวกชำระแบบรายปีหรือรายเดือนดีครับ?'</div>"
-            ]
+            stats: ["• Signature Legacy คุ้มครองชีวิตสูงสุด 500 ล้านบาท", "• วางแผนมรดกเพื่อเป็นกองทุนสำรองฉุกเฉินให้ทายาท"],
+            ideas: ["<strong>กลยุทธ์ 'สร้างมรดกเงินล้านด้วยเงินหลักหมื่น'</strong><br><div class='closing-box'>บทปิดการขาย: 'วันนี้สะดวกเริ่มต้นสร้างกองมรดกนี้เลยนะครับ'</div>"]
         };
 
         function adjustInputFontSize(el) { 
+            if(!el) return;
             el.style.fontSize = '14px'; 
             let currentSize = 14; 
             while (el.scrollWidth > el.clientWidth && currentSize > 9) { 
                 currentSize -= 0.5; 
                 el.style.fontSize = currentSize + 'px'; 
             } 
+        }
+
+        // ส่วนที่ 2: เพิ่มฟังก์ชันนี้กลับเข้าไปใต้ adjustInputFontSize เพื่อแก้ Error getCommissionRate
+        function getCommissionRate(plan, age) {
+            if (plan === '5SLB') { // 5SLB
+                if (age <= 50) return 0.25;
+                if (age <= 60) return 0.20;
+                return 0.15;
+            } else if (plan === '10SLB') { // 10SLB
+                if (age <= 50) return 0.40;
+                if (age <= 60) return 0.30;
+                return 0.20;
+            }
+            return 0;
         }
 
         function toggleSettings() { const el = document.getElementById('manualInputs'); if (el) el.classList.toggle('hidden'); }
@@ -405,22 +370,17 @@
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000); 
         }
 
-        function setPlan(plan) { currentPlan = plan; document.getElementById('btn10CX').className = `flex-1 gender-btn ${plan==='10CX'?'active-blue':''}`; document.getElementById('btn20CX').className = `flex-1 gender-btn ${plan==='20CX'?'active-blue':''}`; calculate(currentMode); }
+        function setPlan(plan) { currentPlan = plan; document.getElementById('btn5SLB').className = `flex-1 gender-btn ${plan==='5SLB'?'active-blue':''}`; document.getElementById('btn10SLB').className = `flex-1 gender-btn ${plan==='10SLB'?'active-blue':''}`; calculate(currentMode); }
         function setGender(gender) { currentGender = gender; document.getElementById('btnMale').className = `flex-1 gender-btn ${gender==='male'?'active':''}`; document.getElementById('btnFemale').className = `flex-1 gender-btn ${gender==='female'?'active-pink':''}`; calculate(currentMode); }
         function handlePremiumInput(el) { let v = el.value.replace(/,/g, ''); if (!isNaN(v) && v !== '') { el.value = Number(v).toLocaleString(); calculate('premium'); } }
         function handleSumInput(el) { let v = el.value.replace(/,/g, ''); if (!isNaN(v) && v !== '') { el.value = Number(v).toLocaleString(); calculate('sum'); } }
-        function handleMBInput(el) { let v = el.value.replace(/,/g, ''); if (!isNaN(v) && v !== '') el.value = Number(v).toLocaleString(); updateMBDisplay(); refreshAllDisplays(); }
-        function handleMYBInput(el) { let v = el.value.replace(/,/g, ''); if (!isNaN(v) && v !== '') el.value = Number(v).toLocaleString(); updateMYBDisplay(); refreshAllDisplays(); }
-        function handleNABFYCInput(el) { let v = el.value.replace(/,/g, ''); if (!isNaN(v) && v !== '') el.value = Number(v).toLocaleString(); updateNABDisplay(); }
         function setQuickSum(val) { const el = document.getElementById('sumInsuredInput'); if(el) { el.value = val.toLocaleString(); calculate('sum'); } }
-        function setQuickPremium(val) { const el = document.getElementById('premiumInput'); if(el) { el.value = val.toLocaleString(); calculate('premium'); } }
         
-        function checkMinLimit() { if (lastCalculationData && lastCalculationData.sum < 5000000) { showCustomError("ทุนประกันขั้นต่ำ 5 ล้านบาท"); setQuickSum(5000000); } }
-        function getDiscount(sum, plan) { return 0; } // ยกเลิกส่วนลดตามคำสั่งล่าสุด
+        function checkMinLimit() { if (lastCalculationData && lastCalculationData.sum < 10000000) { showCustomError("ทุนประกันขั้นต่ำ 10 ล้านบาท"); setQuickSum(10000000); } }
 
         function calculate(source) { 
             currentMode = source; const age = parseInt(document.getElementById('ageInput').value || 0); 
-            const totalRate = (LIFE_RATES[currentPlan]?.[currentGender]?.[age] || 0) + (CI_RATES[currentPlan]?.[currentGender]?.[age] || 0); 
+            const totalRate = (LIFE_RATES[currentPlan]?.[currentGender]?.[age] || 0); 
             if (totalRate <= 0) return null; let fSum = 0, fPrem = 0; 
             if (source === 'sum') { 
                 fSum = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')) || 0; 
@@ -433,17 +393,17 @@
                 if (fSum > 500000000) fSum = 500000000;
                 document.getElementById('sumInsuredInput').value = formatNum(fSum); 
             } 
-            lastCalculationData = { premium: fPrem, sum: fSum, gender: currentGender==='male'?'ชาย':'หญิง', age: age, years: currentPlan==='10CX'?'5':'10' }; 
+            lastCalculationData = { premium: fPrem, sum: fSum, gender: currentGender==='male'?'ชาย':'หญิง', age: age, years: currentPlan==='5SLB'?'5':'10' }; 
             refreshAllDisplays(); return lastCalculationData; 
         }
 
-        function updateMBDisplay() { /* Logic for MB Table */ }
-        function updateMYBDisplay() { /* Logic for MYB Table */ }
-        function updateNABDisplay() { /* Logic for NAB Table */ }
-
         function refreshAllDisplays() { 
             if (!lastCalculationData) return; const p = lastCalculationData.premium; 
-            const fyc = Math.round(p * COM_RATES[currentPlan][0]);
+            const age = lastCalculationData.age;
+            const planRate = getCommissionRate(currentPlan, age);
+            const fyc = Math.round(p * planRate);
+            
+            setText('mainPremiumResult', Math.round(p).toLocaleString()); 
             setText('caseIncomeComm', fyc.toLocaleString() + " บาท"); 
             setText('caseIncomeTotal', fyc.toLocaleString() + " บาท"); 
             setText('sumMonthly', Math.round(p * 0.09).toLocaleString()); 
@@ -451,52 +411,29 @@
             setText('sum6Month', Math.round(p * 0.52).toLocaleString()); 
         }
 
-        function updateAIStats() { 
-            const age = parseInt(document.getElementById('ageInput').value) || 0;
-            const pool = (age >= 0 && age <= 15) ? aiPool.stats_child : aiPool.stats_adult;
-            document.getElementById('aiStatsText').innerText = pool[Math.floor(Math.random() * pool.length)]; 
+        function updateAIAdvisorContent() {
+            document.getElementById('aiStatsText').innerHTML = aiPool.stats[Math.floor(Math.random() * aiPool.stats.length)];
+            document.getElementById('aiIdeaText').innerHTML = aiPool.ideas[Math.floor(Math.random() * aiPool.ideas.length)];
         }
-        function updateAICosts() { 
-            const age = parseInt(document.getElementById('ageInput').value) || 0;
-            const pool = (age >= 0 && age <= 15) ? aiPool.costs_child : aiPool.costs_adult;
-            document.getElementById('aiCostText').innerText = pool[Math.floor(Math.random() * pool.length)]; 
-        }
-        function updateAIIdeas() { 
-            const age = parseInt(document.getElementById('ageInput').value) || 0;
-            const pool = (age >= 0 && age <= 15) ? aiPool.ideas_child : aiPool.ideas_adult;
-            document.getElementById('aiIdeaText').innerHTML = pool[Math.floor(Math.random() * pool.length)]; 
-        }
-        function updateAIAdvisorContent() { updateAIStats(); updateAICosts(); updateAIIdeas(); }
 
         function closeModal() { document.getElementById('resultModal').classList.remove('show'); }
-        function manualTriggerPopup() { const d = calculate('sum'); if(d) { if (d.sum < 5000000) { showCustomError("ทุนประกันขั้นต่ำ 5 ล้านบาท"); setQuickSum(5000000); return; } openModal(d); } }
+        function manualTriggerPopup() { const d = calculate('sum'); if(d) { if (d.sum < 10000000) { showCustomError("ทุนประกันขั้นต่ำ 10 ล้านบาท"); setQuickSum(10000000); return; } openModal(d); } }
         function openModal(d) { 
             setText('modalGender', d.gender); setText('modalAge', d.age + " ปี"); setText('modalYears', d.years + " ปี"); 
             setText('modalPremium', Math.round(d.premium).toLocaleString() + " บาท"); setText('modalSum', formatNum(d.sum) + " บาท"); 
-            setText('modalExtraCI', formatNum(d.sum * 0.25) + " บาท"); setText('modalMajorCI', formatNum(d.sum * 0.75) + " บาท"); 
-            setText('modalMajorCIBefore', formatNum(d.sum) + " บาท"); setText('modalMaturity', formatNum(d.sum * 1.05) + " บาท");
+            setText('modalMaturity', formatNum(d.sum * 1.05) + " บาท");
             document.getElementById('resultModal').classList.add('show'); 
         }
 
-        function showDefinition(title, desc) { 
-            document.getElementById('defTitle').innerText = title; 
-            document.getElementById('defDescription').innerText = desc; 
-            const modal = document.getElementById('definitionModal'); 
-            modal.classList.remove('opacity-0', 'pointer-events-none'); 
-            const content = document.getElementById('defModalContent'); 
-            content.classList.remove('scale-95'); content.classList.add('scale-100'); 
-        }
         function closeDefinition() { 
             const modal = document.getElementById('definitionModal'); 
             modal.classList.add('opacity-0', 'pointer-events-none'); 
-            const content = document.getElementById('defModalContent'); 
-            content.classList.remove('scale-100'); content.classList.add('scale-95'); 
         }
 
         function processTextCommand() { 
             const t = document.getElementById('textCommand').value.toLowerCase(); 
             let gender = t.includes('ญ') ? 'female' : 'male'; 
-            let plan = t.includes('10') ? '20CX' : '10CX';
+            let plan = t.includes('5') ? '5SLB' : '10SLB';
             let ageMatch = t.match(/(\d+)/); let age = ageMatch ? parseInt(ageMatch[1]) : 30;
             if (age > 70) age = 70;
             document.getElementById('ageInput').value = age; setGender(gender); setPlan(plan);
