@@ -76,7 +76,7 @@
                 </h2>
                 <div id="insuranceConditions" class="hidden mt-3 grid grid-cols-1 gap-1 text-[11px] text-blue-800/80 font-medium border-t border-blue-100 pt-2 px-6 text-left space-y-1 pb-1">
                     <p>• อายุที่รับประกัน: 0 - 70 ปี</p>
-                    <p>• ทุนประกันขั้นต่ำ: 5,000,000 บาท</p>
+                    <p>• ทุนประกันเริ่มต้น: 5,000,000 บาท</p>
                     <p>• สิทธิประโยชน์มะเร็ง 5 อวัยวะหลัก (30% Advance + 100% Extra)</p>
                 </div>
             </div>
@@ -166,6 +166,7 @@
                 </button>
 
                 <div id="aiAdvisorContainer" class="hidden cash-container border-indigo-100 bg-indigo-50/10 p-4">
+                    <!-- Stats Section -->
                     <div class="ai-header-btn" onclick="toggleAIInnerSection('aiStats');">
                         <h4><i class="fas fa-chart-pie mr-2"></i> ข้อมูลสถิติ</h4>
                         <i class="fas fa-plus text-[8px] text-indigo-300"></i>
@@ -181,6 +182,7 @@
                         <div id="aiStatsText">กำลังวิเคราะห์ข้อมูล...</div>
                     </div>
                     
+                    <!-- Expense Section -->
                     <div class="ai-header-btn" onclick="toggleAIInnerSection('aiCost');">
                         <h4><i class="fas fa-file-invoice-dollar mr-2"></i> ประมาณการค่าใช้จ่าย</h4>
                         <i class="fas fa-plus text-[8px] text-indigo-300"></i>
@@ -196,6 +198,7 @@
                         <div id="aiCostText">กำลังวิเคราะห์ราคา...</div>
                     </div>
                     
+                    <!-- Ideas Section -->
                     <div class="ai-header-btn" onclick="toggleAIInnerSection('aiIdea');">
                         <h4><i class="fas fa-lightbulb mr-2"></i> ไอเดียการขาย</h4>
                         <i class="fas fa-plus text-[8px] text-indigo-300"></i>
@@ -218,7 +221,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="6" rx="1" fill="#94a3b8" /><rect x="10" y="10" width="4" height="10" rx="1" fill="#64748b" /><rect x="17" y="6" width="4" height="14" rx="1" fill="#1e3a8a" /></svg>
                         <span class="text-xl font-bold tracking-[0.25em] text-slate-900 uppercase">CASH</span>
                     </div>
-                    <span class="text-[11px] font-bold tracking-widest mt-1 text-blue-900 text-center uppercase">Agency Success Howto</span>
+                    <span class="text-[11px] font-bold tracking-widest mt-1 text-blue-900 text-center">Chubb Agency Success Howto</span>
                 </button>
 
                 <div id="cashMenuContainer" class="hidden cash-container">
@@ -315,12 +318,13 @@
     </div>
 
     <script>
-        // --- 1. Global State & Constants ---
+        // --- 1. Global State Variables (TOP PRIORITY) ---
         let currentPlan = '10SLB';
         let currentGender = 'male';
         let lastCalculationData = null;
         let currentMode = 'sum';
 
+        // --- 2. Constants & Data Tables ---
         const LIFE_RATES = { 
             "5SLB": { 
                 "male": [20.38, 20.97, 22.19, 23.21, 24.22, 25.35, 26.58, 27.83, 28.79, 29.76, 30.73, 31.70, 32.67, 33.64, 34.61, 35.58, 36.80, 38.04, 39.25, 40.49, 41.64, 42.85, 44.09, 45.32, 46.55, 47.78, 48.83, 49.88, 50.93, 51.98, 52.70, 54.38, 55.97, 57.65, 59.87, 61.57, 63.54, 65.84, 68.30, 69.80, 72.87, 75.34, 77.74, 80.56, 83.42, 86.30, 89.02, 91.83, 94.55, 97.30, 101.06, 103.81, 106.56, 109.32, 112.21, 117.99, 120.82, 124.34, 127.13, 131.30, 134.51, 135.40, 138.55, 141.82, 146.40, 149.61, 154.36, 159.24, 164.25, 169.41, 174.71], 
@@ -332,7 +336,31 @@
             } 
         };
 
-        // --- 2. CASH MODULE ---
+        // --- 3. Utility Functions ---
+        function setText(id, text) { 
+            const el = document.getElementById(id); 
+            if (el) el.innerText = text; 
+        }
+
+        function formatNum(num) { 
+            const rounded = Math.round(num * 100) / 100; 
+            return Number.isInteger(rounded) ? rounded.toLocaleString() : rounded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+        }
+
+        function getCommissionRateArray(plan, age) {
+            if (plan === '5SLB') {
+                if (age <= 25) return [0.15, 0.06, 0.0375, 0.01, 0.01];
+                if (age <= 60) return [0.10, 0.04, 0.025];
+                return [0.05, 0.02, 0.0125];
+            } else if (plan === '10SLB') {
+                if (age <= 40) return [0.30, 0.12, 0.08, 0.025, 0.025, 0.025];
+                if (age <= 60) return [0.25, 0.10, 0.07, 0.01, 0.01, 0.01];
+                return [0.10, 0.04, 0.025, 0.01, 0.01, 0.01];
+            }
+            return [0];
+        }
+
+        // --- 4. CASH MODULE ---
         const CASH_MODULE = {
             CONFIG: {
                 MB_TIERS: [
@@ -423,9 +451,9 @@
             }
         };
 
-        // --- Advisor Data Pools ---
+        // --- 5. Advisor Data Pools ---
         const aiStatsPool = [
-            { t: "สถิติมะเร็ง 5 อวัยวะหลัก (30% Advance)", c: "มะเร็งตับและปอดเป็นสาเหตุการตายอันดับ 1 ของไทย SLB จ่ายผลประโยชน์ล่วงหน้า 30% ทันทีที่ตรวจพบ (ปอด, ตับ, ตับอ่อน, ทางเดินน้ำดี, หลอดอาหาร) โดยทุนมรดกไม่ลดลง" },
+            { t: "สถิติมะเร็ง 5 อวัยวะหลัก (30% Advance)", c: "มะเร็งตับและปอดครองอันดับ 1 สาเหตุการตายในไทย SLB จ่ายผลประโยชน์ล่วงหน้า 30% ทันทีเมื่อตรวจพบ (ปอด, ตับ, ตับอ่อน, ทางเดินน้ำดี, หลอดอาหาร) โดยทุนมรดกไม่ลดลง" },
             { t: "จุดต่างสำคัญ: 90% ให้ทายาททันใจ", c: "Signature Legacy จ่ายทุน 90% ให้ทายาททันทีในระยะสุดท้าย เพื่อเป็นกองทุนสภาพคล่องจัดการธุระโดยไม่ต้องรอใบมรณบัตรหรือคำสั่งศาล" },
             { t: "กลุ่มลูกค้ามั่งคั่ง (HNW)", c: "ลูกค้าที่มีสินทรัพย์ 10 ล้านขึ้นไป มักเจอปัญหาสภาพคล่องในการโอนย้ายมรดก ประกันชีวิตคือสินทรัพย์เดียวที่โอนย้ายได้เร็วที่สุดและปลอดภาษีมรดก 100%" }
         ];
@@ -442,28 +470,10 @@
             { t: "บริหารกระแสเงินสดระดับ Wealth", i: "ย้ายเงินฝากกำไรต่ำมาเป็นกองมรดกกำไร 100 เท่า เป็นการ Leverage สินทรัพย์ที่คุ้มค่าที่สุดสำหรับนักธุรกิจ", c: "เปลี่ยนเงินหลักหมื่นเป็นพอร์ตมรดกสิบล้านให้ครอบครัวทันที ยืนยันแผนชำระแบบ 5 ปี หรือ 10 ปีดีครับ?" }
         ];
 
-        // --- Utility Functions ---
-        function setText(id, text) { const el = document.getElementById(id); if (el) el.innerText = text; }
-
-        // --- Main Functions ---
-        function getCommissionRateArray(plan, age) {
-            if (plan === '5SLB') {
-                if (age <= 25) return [0.15, 0.06, 0.0375, 0.01, 0.01];
-                if (age <= 60) return [0.10, 0.04, 0.025];
-                return [0.05, 0.02, 0.0125];
-            } else if (plan === '10SLB') {
-                if (age <= 40) return [0.30, 0.12, 0.08, 0.025, 0.025, 0.025];
-                if (age <= 60) return [0.25, 0.10, 0.07, 0.01, 0.01, 0.01];
-                return [0.10, 0.04, 0.025, 0.01, 0.01, 0.01];
-            }
-            return [0];
-        }
-
+        // --- 6. Main Calculation Functions ---
         function calculate(source) {
-            currentMode = source; 
-            const age = parseInt(document.getElementById('ageInput').value || 30);
-            const rate = LIFE_RATES[currentPlan][currentGender][age] || 0; 
-            if (rate <= 0) return null;
+            currentMode = source; const age = parseInt(document.getElementById('ageInput').value || 30);
+            const rate = LIFE_RATES[currentPlan][currentGender][age] || 0; if (rate <= 0) return null;
             let fSum = 0, fPrem = 0;
             if (source === 'sum') {
                 fSum = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')) || 0;
@@ -515,7 +525,16 @@
         function setQuickSum(v) { document.getElementById('sumInsuredInput').value = v.toLocaleString(); calculate('sum'); }
         function handleSumInput(el) { let v = el.value.replace(/,/g, ''); if(!isNaN(v) && v !== '') { el.value = Number(v).toLocaleString(); calculate('sum'); } }
         function handlePremiumInput(el) { let v = el.value.replace(/,/g, ''); if(!isNaN(v) && v !== '') { el.value = Number(v).toLocaleString(); calculate('premium'); } }
-        function checkMinLimit() { const v = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, '')); if(v < 5000000) { setQuickSum(5000000); } }
+        
+        function checkMinLimit() { 
+            const v = parseFloat(document.getElementById('sumInsuredInput').value.replace(/,/g, ''));
+            if(v < 5000000) { showCustomError("ทุนประกันเริ่มต้น 5 ล้านบาท"); setQuickSum(5000000); }
+            else if(v > 500000000) { showCustomError("ทุนประกันสูงสุด 500 ล้านบาท"); setQuickSum(500000000); }
+        }
+
+        function showCustomError(msg) { 
+            const toast = document.createElement('div'); toast.className = "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-8 py-4 rounded-2xl text-sm font-bold z-[800]"; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 2000); 
+        }
 
         function closeModal() { document.getElementById('resultModal').classList.remove('show'); }
         function manualTriggerPopup() { const d = calculate('sum'); if(d) openModal(d); }
@@ -535,12 +554,43 @@
             }
         }
 
+        // --- 7. Natural Language Processing (NLP) for Voice/Text ---
         function processTextCommand() {
-            const t = document.getElementById('textCommand').value.toLowerCase(); const ageM = t.match(/(\d+)/);
-            if(ageM) document.getElementById('ageInput').value = ageM[1];
-            if(t.includes('ญ')) setGender('female'); else if(t.includes('ช')) setGender('male');
-            if(t.includes('5')) setPlan('5SLB'); else if(t.includes('10')) setPlan('10SLB');
-            calculate('sum'); manualTriggerPopup(); document.getElementById('textCommand').value = "";
+            let t = document.getElementById('textCommand').value.toLowerCase();
+            if(!t) return;
+
+            const millionMatch = t.match(/(\d+)\s*(ล้าน|m)/);
+            if(millionMatch) {
+                let mVal = parseInt(millionMatch[1]) * 1000000;
+                if (mVal >= 5000000 && mVal <= 500000000) {
+                    document.getElementById('sumInsuredInput').value = mVal.toLocaleString();
+                }
+            } else {
+                const rawNumMatch = t.match(/(?:ทุน|คุ้มครอง)\s*(\d+)/);
+                if(rawNumMatch) {
+                    let rVal = parseInt(rawNumMatch[1]);
+                    if(rVal >= 5000000) document.getElementById('sumInsuredInput').value = rVal.toLocaleString();
+                }
+            }
+
+            if(/(หญิง|ญ|ลูกสาว|แม่|ผู้หญิง|ภรรยา|เมีย|สาว)/.test(t)) setGender('female'); 
+            else if(/(ชาย|ช|ลูกชาย|พ่อ|ผู้ชาย|สามี|ผัว|หนุ่ม)/.test(t)) setGender('male');
+
+            const ageMatch = t.match(/(\d+)\s*(ปี|ขวบ|อายุ)/) || t.match(/(อายุ|ปี|ขวบ)\s*(\d+)/);
+            if(ageMatch) {
+                let aVal = parseInt(ageMatch[1] || ageMatch[2]);
+                if(aVal >= 0 && aVal <= 70) document.getElementById('ageInput').value = aVal;
+            } else {
+                const simpleNum = t.match(/\b([0-9]|[1-6][0-9]|70)\b/);
+                if(simpleNum) document.getElementById('ageInput').value = simpleNum[1];
+            }
+
+            if(t.includes('5') || t.includes('ห้าปี')) setPlan('5SLB'); 
+            else if(t.includes('10') || t.includes('สิบปี')) setPlan('10SLB');
+
+            calculate('sum'); 
+            manualTriggerPopup(); 
+            document.getElementById('textCommand').value = "";
         }
 
         function startVoiceRecognition() {
